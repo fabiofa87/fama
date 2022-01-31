@@ -1,4 +1,5 @@
 import {Request, Response} from 'express';
+import { UserBusiness } from '../business/UserBusiness';
 import { SignupInputDTO } from "../entities/User";
 
 export class UserController {
@@ -14,7 +15,7 @@ export class UserController {
             }
 
             const userBusiness = new UserBusiness();
-            const token = await userBusiness.signup(input);
+            const token = await userBusiness.createUser(input);
 
             res.status(201).send({message, token});
         }
