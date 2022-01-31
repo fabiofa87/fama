@@ -1,5 +1,5 @@
 import { UserDatabase } from "../data/UserDatabase";
-import { SignupInputDTO, User } from "../entities/User";
+import { LoginInputDTO, SignupInputDTO, User } from "../entities/User";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
@@ -28,5 +28,35 @@ export class UserBusiness {
         const token = autheticator.generateToken({id, role: user.role});
 
         return token;
+    }
+    async login(input: LoginInputDTO): Promise<string> {
+        try {
+            if(!input.email || !input.password) {
+                throw new Error('"Email" and "Password" are required.');
+            }
+
+            const userDatabase = new UserDatabase();
+            const user = await userDatabase.getUserByEmail(input.email);
+
+            if(!user) {
+                throw new Error('User not found.');
+            }
+
+            const hashManager = new HashManager();
+            const isPasswordCorrect: boolean = await hashManager.compareHash(input.password, user.password);
+
+            if(!isPasswordCorrect) {
+                throw new Error('Invalid password.');
+            }
+
+            const tokenManager = new Authenticator();
+            const token = tokenManager.generateToken({id: user.id, role: user.role});
+
+            return token;
+
+        }
+        catch(error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
     }
 }
