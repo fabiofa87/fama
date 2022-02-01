@@ -2,7 +2,7 @@ import express, {Express} from 'express';
 import cors from 'cors';
 import { AddressInfo } from 'net';
 import { userRouter } from './endpoints/UserRouter';
-import { bandRouter } from './endpoints/bandRouter';
+import { bandRouter } from './endpoints/BandRouter';
 
 export const app: Express = express();
 

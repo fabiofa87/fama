@@ -30,4 +30,21 @@ export class BandController {
             throw new Error(error.sqlMessage || error.message);
         }
     }
+    async getBandDetails(req: Request, res: Response) {
+        try {
+            const input = (req.query.id ?? req.query.name) as string
+
+            const bandBusiness = new BandBusiness(
+                new BandDatabase,
+                new IdGenerator,
+                new Authenticator,
+            )
+            const band = await bandBusiness.getBandDetails(input);
+
+            res.status(200).send({ band });
+        }
+        catch(error: any) {
+            throw new Error(error.sqlMessage || error.message);
+        }
+    }
 }
