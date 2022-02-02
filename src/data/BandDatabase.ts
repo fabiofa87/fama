@@ -4,13 +4,14 @@ import { BaseDatabase } from "./BaseDatabase";
 export class BandDatabase extends BaseDatabase {
     public async addBand(band: Band): Promise<void> {
         try {
-            const result = await this.connection('bandas')
+            const result = await this.getConnection()
             .insert({
                 id: band.getId(),
                 name: band.getName(),
                 music_genre: band.getMusicGenre(),
                 responsible: band.getResponsible(),
             })
+            .into('bandas')
             
         }
         catch(error: any) {
@@ -19,10 +20,11 @@ export class BandDatabase extends BaseDatabase {
     }
     public async getBandDetails(input: string): Promise<Band> {
          try{
-             const result = await this.connection('bandas')
+             const result = await this.getConnection()
              .select('*')
              .where({ id: input })
              .orWhere({ name: input })
+             .into('bandas')
 
              if(!result[0]) {
                  throw new Error("Band not found!");

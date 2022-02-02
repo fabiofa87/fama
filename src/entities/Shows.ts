@@ -82,4 +82,5 @@ export interface ShowsOutputDTO {
     week_day: Week_Day;
     start_time: number;
     end_time: number;
+    music_genre?: string;
 }

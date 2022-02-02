@@ -33,7 +33,7 @@ export class Band {
         return (obj && new Band(
             obj.id,
             obj.name,
-            obj.music_genre,
+            obj.music_genre || obj.musicGenre || obj.mainGenre,
             obj.responsible,
         ))
     }

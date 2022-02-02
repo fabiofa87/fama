@@ -1,6 +1,6 @@
 import { BandDatabase } from "../data/BandDatabase";
 import { ShowsDatabase } from "../data/ShowsDatabase";
-import { Shows, ShowsInputDTO } from "../entities/Shows";
+import { Shows, ShowsInputDTO, Week_Day } from "../entities/Shows";
 import { UserRole } from "../entities/User";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -51,5 +51,14 @@ export class ShowBusiness{
                 }
             )
         )
+    }
+    async getShowsByWeekDay(weekDay: Week_Day) {
+        
+        if(!weekDay) {
+            throw new Error("Week day must be provided!");
+        }
+        const shows = await this.showDatase.getShowsByWeekDay(weekDay);
+
+        return {result: shows }
     }
 }

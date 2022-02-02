@@ -7,3 +7,4 @@ export const showsRouter = express.Router()
 const showsController = new ShowsController();
 
 showsRouter.post('/register', showsController.createShow)
+showsRouter.get('/get-by-weekday', showsController.getShowsByWeekDay)
