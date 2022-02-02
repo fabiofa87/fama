@@ -12,37 +12,38 @@ export class Shows {
         private end_time: number,
         private band_id: string
     ) {}
-    public getId(): string {
+        public getId(): string {
         return this.id;
-    }
-    public getWeekday(): Week_Day {
-        return this.weekday;
-    }
-    public getStartTime(): number {
-        return this.start_time;
-    }
-    public getEndTime(): number {
-        return this.end_time;
-    }
-    public getBandId(): string {
-        return this.band_id;
-    }
-
-    public setId(id: string) {
+        }
+        public setId(id: string) {
         this.id = id;
-    }
-    public setWeekday(weekday: Week_Day) {
+        }
+        public getWeekday(): Week_Day {
+        return this.weekday;
+        }
+        public setWeekday(weekday: Week_Day) {
         this.weekday = weekday;
-    }
-    public setStartTime(start_time: number) {
+        }
+        public getStartTime(): number {
+        return this.start_time;
+        }
+        public setStartTime(start_time: number) {
         this.start_time = start_time;
-    }
-    public setEndTime(end_time: number) {
+        }
+        public getEndTime(): number {
+        return this.end_time;
+        }
+        public setEndTime(end_time: number) {
         this.end_time = end_time;
-    }
-    public setBandId(band_id: string) {
+        }
+        public getBandId(): string {
+        return this.band_id;
+        }
+        public setBandId(band_id: string) {
         this.band_id = band_id;
-    }
+        }
+        
+        
 
     public static toWeekDayModel(obj?: any): Week_Day{
         switch(obj) {
@@ -61,9 +62,9 @@ export class Shows {
         return (obj && new Shows(
             obj.id,
             Shows.toWeekDayModel(obj.weekday || obj.week_day || obj.weekDay),
-            obj.band_id || obj.bandId,
-            obj.start_time || obj.startTime,
+            obj.start_time || obj.startTime, 
             obj.end_time || obj.endTime,
+            obj.band_id || obj.bandId,
         ))
     }
 }

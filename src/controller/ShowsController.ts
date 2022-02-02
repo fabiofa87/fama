@@ -7,6 +7,7 @@ import { Authenticator } from '../services/Authenticator';
 import { IdGenerator } from '../services/IdGenerator';
 
 export class ShowsController {
+    
     async createShow(req: Request, res: Response) {
         try {
             const weekDay = Shows.toWeekDayModel(req.body.week_day);
@@ -17,7 +18,6 @@ export class ShowsController {
                 end_time: req.body.end_time,
                 band_id: req.body.band_id
             }
-
             const showBusiness = new ShowBusiness(
                 new ShowsDatabase,
                 new BandDatabase,
