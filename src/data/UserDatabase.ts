@@ -6,11 +6,11 @@ export class UserDatabase extends BaseDatabase {
         try {
             await this.getConnection()
             .insert({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                password: user.password,
-                role: user.role
+                id: user.getId(),
+                name: user.getName(),
+                email: user.getEmail(),
+                password: user.getPassword(),
+                role: user.getRole()
             })
             .into('usuarios')
         }

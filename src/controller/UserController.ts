@@ -1,6 +1,11 @@
 import {Request, Response} from 'express';
 import { UserBusiness } from '../business/UserBusiness';
-import { LoginInputDTO, SignupInputDTO } from "../entities/User";
+import {LoginInputDTO, SignupInputDTO, User} from "../entities/User";
+import {BaseDatabase} from "../data/BaseDatabase";
+import {Authenticator} from "../services/Authenticator";
+import {HashManager} from "../services/HashManager";
+import {IdGenerator} from "../services/IdGenerator";
+import {UserDatabase} from "../data/UserDatabase";
 
 export class UserController {
     async signup(req: Request, res: Response) {
@@ -14,14 +19,20 @@ export class UserController {
                 role: req.body.role
             }
 
-            const userBusiness = new UserBusiness();
-            const token = await userBusiness.createUser(input);
+            const userBusiness = new UserBusiness(
+                new UserDatabase(),
+                new IdGenerator(),
+                new HashManager(),
+                new Authenticator()
+            )
+            const token = await userBusiness.createUser(input)
 
             res.status(201).send({message, token});
         }
         catch(error: any) {
             throw new Error(error.sqlMessage || error.message);
         }
+        await BaseDatabase.destroyConnection()
     }
     async login(req: Request, res: Response) {
         try {
@@ -32,7 +43,13 @@ export class UserController {
                 password: req.body.password
             }
 
-            const token = await new UserBusiness().login(input);
+            const userBusiness = new UserBusiness(
+                new UserDatabase(),
+                new IdGenerator(),
+                new HashManager(),
+                new Authenticator()
+            )
+            const token = await userBusiness.login(input)
 
             res.status(200).send({message, token});
         }
@@ -41,5 +58,6 @@ export class UserController {
             res.statusCode = 400;
             res.send({ message })
         }
+        await BaseDatabase.destroyConnection()
     }
 }

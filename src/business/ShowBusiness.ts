@@ -7,7 +7,7 @@ import { IdGenerator } from "../services/IdGenerator";
 
 export class ShowBusiness{
     constructor(
-        private showDatase: ShowsDatabase,
+        private showDatabase: ShowsDatabase,
         private bandDatabase: BandDatabase,
         private idGenerator: IdGenerator,
         private authenticator: Authenticator
@@ -37,13 +37,13 @@ export class ShowBusiness{
             throw new Error("Band does not exist!");
         }
 
-        const registeredShows = await this.showDatase.getScheduledShows(input.start_time, input.end_time, input.weekDay);
+        const registeredShows = await this.showDatabase.getScheduledShows(input.start_time, input.end_time, input.weekDay);
         
         if(registeredShows.length) {
             throw new Error("There are not available to schedule show!");
         } 
 
-        await this.showDatase.createShow(
+        await this.showDatabase.createShow(
             Shows.toShowModel(
                 {
                     ...input,
@@ -57,7 +57,7 @@ export class ShowBusiness{
         if(!weekDay) {
             throw new Error("Week day must be provided!");
         }
-        const shows = await this.showDatase.getShowsByWeekDay(weekDay);
+        const shows = await this.showDatabase.getShowsByWeekDay(weekDay);
 
         return {result: shows }
     }
